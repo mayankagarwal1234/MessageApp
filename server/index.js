@@ -1,4 +1,5 @@
 const express =require('express')
+const bcrypt = require('bcryptjs');
 const cors =require('cors')
 const userRoutes = require("./routes/userRoutes");
 const messageRoutes = require("./routes/messages");
