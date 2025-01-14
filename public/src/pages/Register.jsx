@@ -25,7 +25,7 @@ export default function Register() {
 
   useEffect(() => {
     if (localStorage.getItem("chat-app-user")) {
-      navigate("/");
+      navigate("/"); // Redirect to homepage if user is logged in
     }
   }, [navigate]);
 
@@ -36,22 +36,13 @@ export default function Register() {
   const handleValidation = () => {
     const { password, confirmPassword, username, email } = values;
     if (password !== confirmPassword) {
-      toast.error(
-        "Password and confirm password should be same.",
-        toastOptions
-      );
+      toast.error("Password and confirm password should be the same.", toastOptions);
       return false;
     } else if (username.length < 3) {
-      toast.error(
-        "Username should be greater than 3 characters.",
-        toastOptions
-      );
+      toast.error("Username should be greater than 3 characters.", toastOptions);
       return false;
     } else if (password.length < 8) {
-      toast.error(
-        "Password should be equal or greater than 8 characters.",
-        toastOptions
-      );
+      toast.error("Password should be equal to or greater than 8 characters.", toastOptions);
       return false;
     } else if (email === "") {
       toast.error("Email is required.", toastOptions);
@@ -64,23 +55,19 @@ export default function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-        console.log("in valid process")
       const { email, username, password } = values;
-      const { data } = await axios.post(registerRoute, {
-        username,
-        email,
-        password,
-      });
+      try {
+        const { data } = await axios.post(registerRoute, { username, email, password });
 
-      if (data.status === false) {
-        toast.error(data.msg, toastOptions);
-      }
-      if (data.status === true) {
-        localStorage.setItem(
-          "chat-app-user",
-          JSON.stringify(data.user)
-        );
-        navigate("/");
+        if (data.status === false) {
+          toast.error(data.msg, toastOptions);
+        } else if (data.status === true) {
+          localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+          navigate("/");
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Something went wrong. Please try again.", toastOptions);
       }
     }
   };
@@ -88,7 +75,7 @@ export default function Register() {
   return (
     <>
       <FormContainer>
-        <form action="" onSubmit={(event) => handleSubmit(event)}>
+        <form action="" onSubmit={handleSubmit}>
           <div className="brand">
             <img src={Logo} alt="logo" />
             <h1>Chit-Chat</h1>
@@ -97,29 +84,33 @@ export default function Register() {
             type="text"
             placeholder="Username"
             name="username"
-            onChange={(e) => handleChange(e)}
+            value={values.username}
+            onChange={handleChange}
           />
           <input
             type="email"
             placeholder="Email"
             name="email"
-            onChange={(e) => handleChange(e)}
+            value={values.email}
+            onChange={handleChange}
           />
           <input
             type="password"
             placeholder="Password"
             name="password"
-            onChange={(e) => handleChange(e)}
+            value={values.password}
+            onChange={handleChange}
           />
           <input
             type="password"
             placeholder="Confirm Password"
             name="confirmPassword"
-            onChange={(e) => handleChange(e)}
+            value={values.confirmPassword}
+            onChange={handleChange}
           />
           <button type="submit">Create User</button>
           <span>
-            Already have an account ? <Link to="/login">Login.</Link>
+            Already have an account? <Link to="/login">Login.</Link>
           </span>
         </form>
       </FormContainer>
@@ -127,6 +118,7 @@ export default function Register() {
     </>
   );
 }
+
 const FormContainer = styled.div`
   height: 100vh;
   width: 100vw;
@@ -165,7 +157,7 @@ const FormContainer = styled.div`
     padding: 1rem;
     border: 0.1rem solid #008080;
     border-radius: 0.4rem;
-    color: #333; /* Changed to a dark color for better readability */
+    color: #333;
     width: 100%;
     font-size: 1rem;
     &:focus {
@@ -185,7 +177,7 @@ const FormContainer = styled.div`
     font-size: 1rem;
     text-transform: uppercase;
     &:hover {
-      background-color: #007070; /* Slightly darker teal for hover effect */
+      background-color: #007070;
     }
   }
 

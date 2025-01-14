@@ -41,7 +41,7 @@ const server = app.listen(PORT, () =>
 // Socket.IO Setup
 const io = socket(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://chit-chat-server-3qsc.onrender.com/",
     credentials: true,
   },
 });

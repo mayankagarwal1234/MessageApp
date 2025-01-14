@@ -1,8 +1,27 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
-/node_modules
-   
+/node_modules/
+
+# environment variable files
+.env
 
 # misc
-/env
+.DS_Store  # For MacOS-specific files
+*.log  # To ignore all log files
+
+# IDE or editor folders (e.g., Visual Studio Code, WebStorm)
+.vscode/
+.idea/
+
+# build directories (for projects that use build tools like Webpack, Create React App, etc.)
+/build/
+/dist/
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# package lock file (if you want to ignore it, otherwise remove this line)
+package-lock.json
+
+# other sensitive files (for example, you can add any other files that you don't want to push to the repository)

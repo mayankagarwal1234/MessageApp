@@ -1,4 +1,4 @@
-export const host = process.env.HOST;
+export const host = "https://chit-chat-server-3qsc.onrender.com";
 
 export const loginRoute = `${host}/api/auth/login`;
 export const registerRoute = `${host}/api/auth/register`;
